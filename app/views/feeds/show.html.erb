@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-3 col-sm-3">
+    <h1 class="user">Welcome <%= current_user.username %>!</h1>
+  </div>
+  <div class="col-md-6 col-sm-6">
+    <b>Your Feed!</b>
+    <div class="infinite-tweets">
+    </div>
+    <script type="text/template" id="tweets_template">
+      <ul id="feed">
+        <%% tweets.forEach((data) => { %>
+          <li><a href="/users/<%%= data.user_id %>"><%%= data.user.username %></a> <span class="timestamp"><%%= data.created_at %></span><br /><%%= data.content %></li>
+          <%% }); %>
+        </ul>
+      </script>
+      <a href="javascript:void[0]" id="load-more">Load More</a>
+  </div>
+  <div class="col-md-3 col-sm-3">
+    <%= render "tweets/form" %>
+  </div>
+</div>
