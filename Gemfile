@@ -12,6 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+gem 'font-awesome-sass'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 
@@ -23,6 +24,8 @@ gem 'momentjs-rails'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'underscore-rails'
+
+gem 'jquery-ui-rails'
 
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'sass-rails', '>= 3.2'

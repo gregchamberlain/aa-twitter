@@ -42,7 +42,6 @@ class InfiniteTweets {
   }
 
   insertTweet(data, prepend) {
-    let li = `<li>${data.content} -- <a href="/users/${data.user_id}">${data.user.username}</a> -- ${data.created_at}</li>`
     if (prepend) {
       this.tweets.unshift(data);
       // $('#feed').prepend(li);

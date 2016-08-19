@@ -5,13 +5,13 @@
       name="authenticity_token"
       value="<%= form_authenticity_token %>">
 
-  <label>
-    Content
-    <textarea name="tweet[content]"></textarea>
+  <label class="block">
+    <textarea name="tweet[content]" id="new-tweet" rows="6"></textarea>
   </label>
   <strong class="chars-left"></strong>
   <br>
-
+  <input id="allUsers" type="hidden" data-users="<%= User.all.to_json %>"  >
+<!--
   <label>
     Mention
     <a href="javascript:void(0)" class="add-mentioned-user">Add mention</a>
@@ -29,8 +29,8 @@
     <div class="mentioned-users">
 
     </div>
-  </label>
+  </label> -->
   <br>
 
-  <input type="Submit" value="Post Tweet!">
+  <input class="post-tweet" type="Submit" value="Post Tweet!">
 </form>

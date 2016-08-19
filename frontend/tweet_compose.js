@@ -3,8 +3,9 @@ module.exports = class TweetCompose {
     this.$el = $el;
     this.$el.submit(this.handleSubmit.bind(this));
     this.$el.find("textarea").on("input", (e) => {
-      this.handleInputChange(e.target.value.length);
+      this.handleInputChange(e.target.value);
     });
+    this.users = $('#allUsers').data("users");
     $(".chars-left").text(`0 / 140`);
     $(".add-mentioned-user").click(this.addmentionedUser.bind(this));
   }
@@ -20,13 +21,36 @@ module.exports = class TweetCompose {
     current.parent().remove();
   }
 
-  handleInputChange(length) {
-    $(".chars-left").text(`${length} / 140`);
+  handleInputChange(text) {
+    // let ats = (text.match(/@/g) || []).length;
+    $(".chars-left").text(`${text.length} / 140`);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     let data = $(e.target).serializeJSON();
+    let content = data.tweet.content;
+    let splits = content.split("@");
+    content = content.split("");
+    let ats = splits.map((str, idx) => {
+      let index = str.indexOf(" ") || str.length;
+      str = str.slice(0, index);
+      if (content[content.length - 1] === str[str.length - 1]) {
+        index = str.length;
+      }
+      return str.slice(0, index);
+    }).slice(1);
+    ats.forEach(at => {
+      let user = this.userExists(at);
+      if (user) {
+        let index = content.join("").indexOf(`@${at}`);
+        content.splice(index + at.length + 1, 0, `</a>`);
+        content.splice(index, 0, `<a href="/users/${user.id}">`);
+      }
+    });
+    data.tweet.content = content.join("");
+
+
     this.disableForm(true);
     $.ajax({
       method: "post",
@@ -36,6 +60,16 @@ module.exports = class TweetCompose {
     }).done(this.handleSuccess.bind(this));
   }
 
+  userExists(user) {
+    let exists = false;
+    this.users.forEach(u => {
+      if (u.username === user) {
+        exists = u;
+      }
+    });
+    return exists;
+  }
+
   disableForm(bool) {
     this.$el.find("textarea").prop("disabled", bool);
     this.$el.find("select").attr("disabled", bool);
@@ -43,6 +77,7 @@ module.exports = class TweetCompose {
   }
 
   handleSuccess(data) {
+
     this.disableForm(false);
     this.$el.find("textarea").val("");
     $('.mentioned-users').empty();

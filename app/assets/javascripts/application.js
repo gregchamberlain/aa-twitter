@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require jquery.serializejson
 //= require underscore
+//= require jquery-ui
+//= require jquery-ui/autocomplete
 //= require bootstrap-sprockets
 //= require moment
 
